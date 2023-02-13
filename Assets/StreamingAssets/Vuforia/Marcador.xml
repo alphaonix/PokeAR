@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="MarcadorPokerBlack" size="2.000000 3.555556" />
+    <ImageTarget name="MarcadorPokerLight" size="2.000000 3.555556" />
+    <ImageTarget name="MarcadorPoker_5" size="5.000000 8.888889" />
+    <ImageTarget name="MarcadorPoker_2" size="2.000000 3.555556" />
+    <ImageTarget name="MarcadorPoker_05" size="0.500000 0.888889" />
+    <ImageTarget name="MarcadorPoker" size="1.000000 1.777778" />
+  </Tracking>
+</QCARConfig>
