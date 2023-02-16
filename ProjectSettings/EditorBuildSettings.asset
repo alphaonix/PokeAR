@@ -16,7 +16,7 @@ EditorBuildSettings:
       for 1.unity
     guid: 9b8561c6e396849a5ba48c3eb9524049
   - enabled: 0
-    path: Assets/Scenes/Button3dObject.unity
+    path: Assets/Scenes/Testes/Button3dObject.unity
     guid: 6e0a815335d4b7e4799763446c6f6f6d
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
