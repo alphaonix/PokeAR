@@ -1,21 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Baralho : MonoBehaviour
+public class Baralho : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    float escala;
+    float positionMesa;
 
     public List<GameObject> cartas;
 
     public List<GameObject> baralho;
 
+    private Photon.Realtime.Player photonPlayer;
+    private int id;
     public Mesa m;
 
-    public Player p;
+    public Jogador p;
+
+    public void Inicializa(Photon.Realtime.Player player)
+    {
+        photonPlayer = player;
+        id = player.ActorNumber;
+    }
 
     void Start()
+    {
+        InicializaBaralho();
+    }
+
+    [PunRPC]
+    public void InicializaBaralho()
     {
         //Criando o baralho
         baralho = new List<GameObject>();
@@ -27,7 +42,12 @@ public class Baralho : MonoBehaviour
             baralho.Add(cartas[i]);
 
             //Aumenta a escala das cartas
-            baralho[i].transform.localScale = new Vector3(escala, escala, escala);
+            baralho[i].transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
+        }
+
+        for (int i = 0; i < baralho.Count; i++)
+        {
+            baralho[i].tag = "Player";
         }
 
         //Faz o embaralhamento
@@ -42,12 +62,14 @@ public class Baralho : MonoBehaviour
         //Usado para auxiliar o acesso das cartas da mesa e do jogador
         int aux = 5;
         //Usado para auxiliar no posicionamento das cartas da mesa
-        int positionMesa = 6;
+        int positionMesa = 2;
 
         //Adiciona apenas 5 cartas na mesa
         for (int i = 0; i < aux; i++)
         {
-
+            baralho[2].tag = "Check1";
+            baralho[3].tag = "Check2";
+            baralho[4].tag = "Check3";
             //Adiciona as cartas na mesa
             m.mesa.Add(baralho[i]);
 
@@ -63,13 +85,13 @@ public class Baralho : MonoBehaviour
                 Instantiate(baralho[i], transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(180, 0, 0), transform.parent);
             }
             //Auxiliar para ir reposicionando as cartas na tela
-            positionMesa -= 3;
+            positionMesa -= 1;
         }
 
         //Auxilio para reposicionar as cartas do jogador
-        int xP = 0;
-        int yP = 0;
-        int zP = 0;
+        float xP = 0.0f;
+        float yP = 0.0f;
+        float zP = 0.0f;
 
         //Auxilio para rotacao das cartas do jogador
         float zrP = 0f;
@@ -78,19 +100,16 @@ public class Baralho : MonoBehaviour
         for (int i = aux; i < aux + 2; i++)
         {
             //Adiciona as cartas ao jogador
-            p.player.Add(baralho[i]);
+            p.jogador.Add(baralho[i]);
 
             //Posiciona as Cartas do jogador na tela
-            Instantiate(baralho[i], transform.position + new Vector3(-19 + xP, 0 + yP, -19 + zP), Quaternion.Euler(-90, 0, 15.5f + zrP), transform.parent);
+            Instantiate(baralho[i], transform.position + new Vector3(-2.31f + xP, 0 + yP, -1.2f + zP), Quaternion.Euler(0, 27.64f + zrP, 0), transform.parent);
 
             //Variaveis para auxiliar na segunda carta do jogador
-            xP = 2;
-            yP = 1;
-            zP = -1;
-
-            zrP = 20.251f;
-        }
+            xP = 0.22f;
+            yP = 0.2f;
+            zP = -0.16f;
+            zrP = 13.92f;
+        }        
     }
-
-
 }

@@ -54,7 +54,7 @@ namespace Photon.Pun.Demo.PunBasics
 			// in case we started this demo with the wrong scene being active, simply load the menu scene
 			if (!PhotonNetwork.IsConnected)
 			{
-				SceneManager.LoadScene("Launcher");
+				SceneManager.LoadScene("PunBasics-Launcher");
 
 				return;
 			}
@@ -67,13 +67,13 @@ namespace Photon.Pun.Demo.PunBasics
 
 				if (PlayerManager.LocalPlayerInstance==null)
 				{
-				    //Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+				    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
 
 					// we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-					PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,0f), Quaternion.identity, 0);
+					PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,5f,0f), Quaternion.identity, 0);
 				}else{
 
-					//Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+					Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
 				}
 
 
@@ -103,11 +103,11 @@ namespace Photon.Pun.Demo.PunBasics
         /// <param name="other">Other.</param>
         public override void OnPlayerEnteredRoom( Player other  )
 		{
-			//Debug.Log( "OnPlayerEnteredRoom() " + other.NickName); // not seen if you're the player connecting
+			Debug.Log( "OnPlayerEnteredRoom() " + other.NickName); // not seen if you're the player connecting
 
 			if ( PhotonNetwork.IsMasterClient )
 			{
-				//Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
+				Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
 
 				LoadArena();
 			}
@@ -119,11 +119,11 @@ namespace Photon.Pun.Demo.PunBasics
 		/// <param name="other">Other.</param>
 		public override void OnPlayerLeftRoom( Player other  )
 		{
-			//Debug.Log( "OnPlayerLeftRoom() " + other.NickName ); // seen when other disconnects
+			Debug.Log( "OnPlayerLeftRoom() " + other.NickName ); // seen when other disconnects
 
 			if ( PhotonNetwork.IsMasterClient )
 			{
-				//Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
+				Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
 
 				LoadArena(); 
 			}
@@ -159,10 +159,10 @@ namespace Photon.Pun.Demo.PunBasics
 		{
 			if ( ! PhotonNetwork.IsMasterClient )
 			{
-				//Debug.LogError( "PhotonNetwork : Trying to Load a level but we are not the master Client" );
+				Debug.LogError( "PhotonNetwork : Trying to Load a level but we are not the master Client" );
 			}
 
-			//Debug.LogFormat( "PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount );
+			Debug.LogFormat( "PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount );
 
 			PhotonNetwork.LoadLevel("PunBasics-Room for "+PhotonNetwork.CurrentRoom.PlayerCount);
 		}

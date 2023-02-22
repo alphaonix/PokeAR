@@ -6,6 +6,10 @@ TagManager:
   tags:
   - PlayerEyes
   - Models
+  - Bullet
+  - Check1
+  - Check2
+  - Check3
   layers:
   - Default
   - TransparentFX
