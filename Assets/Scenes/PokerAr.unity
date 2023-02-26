@@ -828,7 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizacaoPrefab: Baralho
-  spawns: []
+  HUD: {fileID: 0}
 --- !u!114 &712879124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2407,6 +2407,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1100617265}
     m_Modifications:
+    - target: {fileID: -7987583095876483755, guid: 9d244c9755ff0494a83bed587922785f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3226154443439720539, guid: 9d244c9755ff0494a83bed587922785f,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1463845574902306880, guid: 9d244c9755ff0494a83bed587922785f,
         type: 3}
       propertyPath: m_Name
@@ -2522,9 +2532,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 0
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
   m_UseLocal: 0
 --- !u!1001 &4742611192417850358
 PrefabInstance:

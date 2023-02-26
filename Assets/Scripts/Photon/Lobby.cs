@@ -1,76 +1,127 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Lobby : MonoBehaviourPunCallbacks
+namespace JDWCompany
 {
 
-    void Awake()
+    public class Lobby : MonoBehaviourPunCallbacks
     {
-        Debug.Log("Conectando no servidor...");
-        PhotonNetwork.LocalPlayer.NickName = "Player" + Random.Range(0, 1000);
-        PhotonNetwork.ConnectUsingSettings();
-    }
+        /// <summary>
+        ///Cria a conexão com o servidor de sinalização para conectar e criar/entrar na sala automáticamente.
+        /// <summary> 
 
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("\nConectado no servidor!");
-        if (PhotonNetwork.InLobby == false)
+        #region Private Serializable Fields
+
+        [Tooltip("A UI onde o usuário pode escrever seu nome, conectar e jogar")]
+        [SerializeField]
+        private GameObject controlPanel;
+
+        [Tooltip("A UI que mostra o progresso de conexão para o usuário")]
+        [SerializeField]
+        private Text feedbackText;
+
+        [Tooltip("A UI do lobby inicial")]
+        [SerializeField]
+        private LoaderLobby loaderLobby;
+
+        [Tooltip("O máximo de jogadores por sala")]
+        [SerializeField]
+        private byte maxPlayersPerRoom = 2;
+
+        #endregion
+
+        #region Private Fields and Contants
+        bool isConnecting;
+        #endregion
+
+        #region MonoBehaviour CallBacks
+        //Executa antes do primeiro frame/star() do jogo chamando um GameObject.
+        void Awake()
         {
-            Debug.Log("\nEntrando no Lobby...");
-            PhotonNetwork.JoinLobby();
+            //Garante que PhotonNetwork.LoadLevel() do cliente Master e dos outros clientes sincronizem automaticamente na mesma sala.
+            PhotonNetwork.AutomaticallySyncScene = true;
         }
-    }
+        #endregion
 
-
-    public override void OnJoinedLobby()
-    {
-        Debug.Log("\nEntrou no Lobby!");
-        PhotonNetwork.JoinRoom("GameLoot");
-        Debug.Log("\nEntrando na sala GameLoot...");
-    }
-
-
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log("\nErro ao entrar na sala: " + message + " return code = " + returnCode);
-
-        if (returnCode == ErrorCode.GameDoesNotExist)
+        #region Public Methods
+        public void Connect()
         {
-            RoomOptions room = new RoomOptions { MaxPlayers = 20 };
-            PhotonNetwork.CreateRoom("GameLoot", room, null);
-            Debug.Log("\nCriando sala GameLoot!");
+            feedbackText.text = "";
+            isConnecting = true;
+            controlPanel.SetActive(false);
+            if (loaderLobby != null)
+            {
+                loaderLobby.StartLoaderAnimation();
+            }
+            // Verifica se o Player está conectado - se estiver entra na sala, senão inicia uma conexão com o servidor.
+            if (PhotonNetwork.IsConnected)
+            {
+                LogFeedback("Entrando da Sala...");
+                PhotonNetwork.JoinRandomRoom();
+            }
+            else
+            {
+                LogFeedback("Conectando...");
+                // Pega as configurações da Unity para se conectar com o servidor online do Photon
+                PhotonNetwork.ConnectUsingSettings();
+            }
         }
+        void LogFeedback(string message)
+        {
+            if (feedbackText == null)
+            {
+                return;
+            }
+            feedbackText.text += System.Environment.NewLine + message;
+        }
+        #endregion
+
+        #region MonoBehaviourPunCallbacks CallBacks
+        //Chamada após a conexão com o Master foi estabelecida.
+        public override void OnConnectedToMaster()
+        {
+            if (isConnecting)
+            {
+                LogFeedback("Conexão com o Master foi estabelecida, entrando na sala ...");
+                //O Player tenta entrar em uma sala, caso falhe OnjoinRandomFailed() � chamado               
+                PhotonNetwork.JoinRandomRoom();
+            }
+        }
+        //Chamada quando JonRandom() falha.
+        public override void OnJoinRandomFailed(short returnCode, string message)
+        {
+            LogFeedback("<Color=Red>OnJoinRandomFailed</Color>: Criando uma nova sala");
+            //if (returnCode == ErrorCode.GameDoesNotExist)
+            //{
+            //    RoomOptions room = new RoomOptions { MaxPlayers = this.maxPlayersPerRoom };
+            //    PhotonNetwork.CreateRoom(null, room);
+            //}
+            PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = this.maxPlayersPerRoom });
+        }
+        //Chamada quando o servidor do Photon é desconectado.
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            LogFeedback("<Color=Red>OnDisconnected</Color> " + cause);
+            loaderLobby.StopLoaderAnimation();
+            isConnecting = false;
+            controlPanel.SetActive(true);
+        }
+        //Chamada ao entrar em uma sala (cria/conecta).
+        public override void OnJoinedRoom()
+        {
+            LogFeedback("<Color=Green>Entrando na sala ...</Color> (" + PhotonNetwork.CurrentRoom.PlayerCount + ")");
+            //Carrega apena se for o primeiro Player a entrar, caso contr�rio a cena � sincronizada autom�ticamente.
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                //Nome da cena que será carregada.
+                PhotonNetwork.LoadLevel("CardsPhoton");
+            }
+        }
+        #endregion
+
     }
-
-    //public override void OnPlayerEnteredRoom(Player newPlayer)
-    //{
-    //    Debug.Log("\nPlayer entrou na sala: " + newPlayer.NickName);
-    //}
-
-
-    //public override void OnPlayerLeftRoom(Player otherPlayer)
-    //{
-    //    Debug.Log("\nPlayer saiu na sala: " + otherPlayer.NickName);
-    //}
-
-    public override void OnLeftRoom()
-    {
-        Debug.Log("\nVoc� saiu da sala...");
-    }
-
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("\nVoc� entrou na sala: GameLoot, como: " + PhotonNetwork.LocalPlayer.NickName);
-        Vector3 position = new Vector3(Random.Range(-10.0f, 10.0f), 1, Random.Range(-10.0f, 10.0f));
-        Quaternion rotation = Quaternion.Euler(Vector3.up * Random.Range(0, 360.0f));
-        //Instantiate do Photon carrega um prefab do Resources
-        PhotonNetwork.Instantiate("PlayerCube", position, rotation);
-    }
-
-
-
 }
+
+

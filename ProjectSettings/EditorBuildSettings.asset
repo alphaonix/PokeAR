@@ -5,15 +5,24 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/PokerArPUN.unity
+  - enabled: 0
+    path: Assets/Scenes/Tests/PokerArPUN.unity
     guid: 7164b85657b29864c871b16b88501b66
   - enabled: 0
     path: Assets/Scenes/PokerAr.unity
     guid: b3e76ddd4767bc64e9023d11298f9fd5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PokerBeta.unity
     guid: d8860b547693f954ca8c0141b56b301d
+  - enabled: 1
+    path: Assets/Scenes/Tests/HUDMenu.unity
+    guid: c36772f0d6243624fb64c3673f31c0e5
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 2fc1176a1e27a744994c33e49edc7a47
+  - enabled: 1
+    path: Assets/Scenes/CardsPhoton.unity
+    guid: 5f3209eea92749845b0c442a8c2d04e7
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}
