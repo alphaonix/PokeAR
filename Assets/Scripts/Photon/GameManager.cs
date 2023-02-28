@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Private Fields
+
     private GameObject instance;
     [Tooltip("O prefab que representa o Player")]
     [SerializeField]
@@ -40,10 +41,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
             Debug.Log("Instantiate playerPrefab for " + PhotonNetwork.PlayerList);
-
+            
+    }
         }
 
-    }
+    
+
+   
+
+
+
     void Update()
     {
         // "back" button of phone equals "Escape". quit app if that's pressed

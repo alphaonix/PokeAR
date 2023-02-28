@@ -6,8 +6,6 @@ using Photon.Realtime;
 
 public class Baralho : MonoBehaviourPunCallbacks
 {
-    // [SerializeField]
-    // public float positionMesa;
 
     [SerializeField]
     int scale;
@@ -16,7 +14,8 @@ public class Baralho : MonoBehaviourPunCallbacks
 
     public List<GameObject> baralho;
 
-    //public PhotonView photonView;
+    public PhotonView photonView;
+
     private int id;
     public Mesa m;
     public Jogador p;
@@ -29,14 +28,7 @@ public class Baralho : MonoBehaviourPunCallbacks
         }
     }
 
-    // void Update(){
-    //     photonView.RPC("InicializaBaralho", RpcTarget.All);
-    // }
 
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("oi");
-    }
 
     [PunRPC]
     public void InicializaBaralho()
@@ -51,7 +43,7 @@ public class Baralho : MonoBehaviourPunCallbacks
             baralho.Add(cartas[i]);
 
             //Aumenta a escala das cartas
-            baralho[i].transform.localScale = new Vector3(scale, scale, scale);
+            // baralho[i].transform.localScale = new Vector3(scale, scale, scale);
         }
 
         //Faz o embaralhamento
@@ -69,32 +61,32 @@ public class Baralho : MonoBehaviourPunCallbacks
         int positionMesa = 800;
 
         //  Adiciona apenas 5 cartas na mesa
-        for (int i = 0; i < aux; i++)
-        {
-            baralho[0].tag = "Check1";
-            baralho[1].tag = "Check2";
-            baralho[2].tag = "Check3";
-            baralho[3].tag = "River";
-            baralho[4].tag = "Turn";
-            //Adiciona as cartas na mesa
-            m.mesa.Add(baralho[i]);
-            //Debug.Log(positionMesa);
-            //-20 -10 0 10 20  
-            if (positionMesa < 0)
-            {
-                PhotonNetwork.InstantiateRoomObject(baralho[i].name, transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(90, 0, 0), 0);
-                //As 2 cartas da mesa virada para cima
-                // PhotonView.Instantiate(baralho[i], transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(90, 0, 0), transform.parent);
+        //for (int i = 0; i < aux; i++)
+        //{
+        //    baralho[0].tag = "Check1";
+        //    baralho[1].tag = "Check2";
+        //    baralho[2].tag = "Check3";
+        //    baralho[3].tag = "River";
+        //    baralho[4].tag = "Turn";
+        //    //Adiciona as cartas na mesa
+        //    m.mesa.Add(baralho[i]);
+        //    //Debug.Log(positionMesa);
+        //    //-20 -10 0 10 20  
+        //    if (positionMesa < 0)
+        //    {
+        //        PhotonNetwork.InstantiateRoomObject(baralho[i].name, transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(90, 0, 0), 0);
+        //        //As 2 cartas da mesa virada para cima
+        //        // PhotonView.Instantiate(baralho[i], transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(90, 0, 0), transform.parent);
 
-            }
-            else
-            {
-                //As 3 cartas da mesa virada para baixo
-                PhotonView.Instantiate(baralho[i], transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(-90, 0, 0), transform.parent);
-            }
-            //Auxiliar para ir reposicionando as cartas na tela
-            positionMesa -= 400;
-        }
+        //    }
+        //    else
+        //    {
+        //        //As 3 cartas da mesa virada para baixo
+        //        PhotonView.Instantiate(baralho[i], transform.position + new Vector3(0 - positionMesa, 0, 0), Quaternion.Euler(-90, 0, 0), transform.parent);
+        //    }
+        //    //Auxiliar para ir reposicionando as cartas na tela
+        //    positionMesa -= 400;
+        // }
 
         // //Auxilio para reposicionar as cartas do jogador
         // float xP = 0.0f;
@@ -118,6 +110,6 @@ public class Baralho : MonoBehaviourPunCallbacks
         //     yP = 0.2f;
         //     zP = -0.16f;
         //     zrP = 13.92f;
-        // }        
+
     }
 }

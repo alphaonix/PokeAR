@@ -10,6 +10,8 @@ public class Placar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI sliderText;
     void Start()
     {
+        //GameController.print()
+       // slider.minValue=
         slider.onValueChanged.AddListener((v) => 
         {
             sliderText.text = v.ToString("0");

@@ -36,6 +36,7 @@ public class PlayerName : MonoBehaviour
     {
 
         PhotonNetwork.NickName = value;
+        //PhotonNetwork.LocalPlayer.NickName = value;
 
         //Salva o nome do Player para futuras sesões.
         PlayerPrefs.SetString(playerNamePrefKey, value);

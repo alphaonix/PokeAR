@@ -22,7 +22,7 @@ public class Menu : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         MudaMenu(menuLobby.gameObject);
-        menuLobby.photonView.RPC("AtualizaLista", RpcTarget.All);
+        menuLobby.PhotonView.RPC("AtualizaLista", RpcTarget.All);
     }
 
     public void MudaMenu(GameObject menu)
@@ -46,6 +46,6 @@ public class Menu : MonoBehaviourPunCallbacks
 
     public void ComecaJogo(string nomeCena)
     {
-        GestorDeRede.Instancia.photonView.RPC("ComecaJogo", RpcTarget.All, nomeCena);
+        GestorDeRede.Instancia.PhotonView.RPC("ComecaJogo", RpcTarget.All, nomeCena);
     }
 }

@@ -44,6 +44,13 @@ MonoBehaviour:
   - AdicionaJogador
   - InicializaBaralho
   - CriaJogador
+  - InicializaBaralho1
+  - ClickAction
+  - AddNumber
+  - UpdateStatus
+  - Start
+  - Log
+  - Embaralhar
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -10,6 +10,9 @@ TagManager:
   - Check3
   - River
   - Turn
+  - Bullet
+  - Button
+  - Cards
   layers:
   - Default
   - TransparentFX
